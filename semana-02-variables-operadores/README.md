@@ -1,4 +1,4 @@
-# Semana 2 - Calculadora de Edad Aproximada
+# Semana 2 - Calculadora de Edad
 
 * **Nombre:** Marino Cabrera
 * **Carné:** 9941-23-8505
