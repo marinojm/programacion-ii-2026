@@ -1,0 +1,49 @@
+# Control de Parqueo - Programación
+
+**Estudiante:** Marino Jeriel Cabrera Mendoza  
+**Carné:** 9941-23-8505
+
+---
+
+## ¿De qué trata la aplicación?
+Es un programa en Java hecho para manejar la lógica de cobro de un estacionamiento desde la consola. La idea es registrar vehículos en lote (uno tras otro) pidiendo datos básicos: placa, qué tipo de vehículo es (moto, carro o pickup) y a qué hora entró y salió.
+
+A partir de eso, el programa saca el tiempo exacto que estuvo estacionado, redondea a la hora superior para cobrar, aplica un 15% de descuento si pasó más de 8 horas ahí, y suma un recargo de Q50.00 si el cliente perdió el ticket. Al terminar cada registro muestra su recibo, y al cerrar el lote tira un resumen con la cantidad de vehículos atendidos, el dinero total que entró y cuál fue el pago más alto.
+
+---
+
+## Estructura y métodos utilizados
+
+* **`mostrarEncabezado()`**: Muestra el nombre del sistema junto a mis datos personales.
+* **`obtenerTarifa()` y `obtenerNombreVehiculo()`**: Métodos sencillos para mapear el tipo de vehículo (1, 2 o 3) con su precio por hora (Q5, Q8 o Q12) y su nombre.
+* **`calcularDescuento()`**: Chequea si las horas cobradas son mayores a 8 para aplicar el 15%.
+* **`calcularPago()`**: Es el método donde apliqué la sobrecarga para calcular el monto final según si perdió el ticket o no.
+* **`mostrarComprobante()` y `mostrarResumenJornada()`**: Se encargan de dar el formato limpio a la salida de datos en consola.
+* **`calcularMinutosTranscurridos()` y `calcularHorasCobradas()`**: Partes clave del reto opcional. Calculan la diferencia de tiempo en minutos (manejando el cambio de día) y redondean hacia arriba a horas completas con `Math.ceil`.
+* **Métodos de validación (`solicitarRango`, `solicitarTipoVehiculo`, etc.)**: Ciclos `while` con `hasNextInt()` para evitar que el programa truene si meten letras o valores fuera de rango.
+
+---
+
+## Sobrecarga de métodos
+Para cumplir con la sobrecarga usé el método `calcularPago`:
+
+1. `calcularPago(horas, tarifa)`: La versión normal que solo toma horas y precio base para sacar el total con descuento.
+2. `calcularPago(horas, tarifa, recargo)`: La versión sobrecargada que recibe un parámetro extra y lo suma al cálculo final cuando el ticket se perdió.
+
+---
+
+## Reto opcional paso por medianoche
+Hice la prueba ingresando un vehículo que entra de noche y sale al día siguiente:
+
+* **Vehículo:** Motocicleta (Q5.00/h)
+* **Entrada:** 20:30 hrs
+* **Salida:** 00:30 hrs
+* **Ticket perdido:** No
+
+**Resultado obtenido:**
+El sistema detectó que la hora de salida era menor a la de entrada, sumó los minutos del cambio de día y calculó correctamente 4 horas de uso (240 minutos), dando un cobro exacto de Q20.00.
+
+---
+
+## Reto Opcional
+**Sí implementado.** Se programó la lógica para detectar el cruce de medianoche en el cálculo de tiempo, el redondeo de minutos a horas completas y la validación de entrada de datos para horas (0-23) y minutos (0-59).
