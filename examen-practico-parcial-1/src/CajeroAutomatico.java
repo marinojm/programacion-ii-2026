@@ -217,6 +217,7 @@ public class CajeroAutomatico {
             if (monto % 20 != 0) {
                 System.out.println("Error: el monto a retirar debe ser multiplo de Q20.00.");
                 return saldoActual;
+
             }
             if (monto > 2000.00) {
                 System.out.println("Error: El monto supera el limite de Q2000.00 por operacion.");
