@@ -1,8 +1,6 @@
 import java.util.Scanner;
 public class ControlParqueo {
-
-    static final String Nombre = "Marino Jeriel Cabrera Mendoza";
-    static final String Carne = "9941-23-8505";
+    
 
     //tarifas y recargos
     static final double TARIFA_MOTO = 5.00;
