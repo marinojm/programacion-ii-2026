@@ -1,6 +1,9 @@
 import java.util.Scanner;
 public class ControlParqueo {
 
+    static final String Nombre = "Marino Jeriel Cabrera Mendoza";
+    static final String Carne = "9941-23-8505";
+
     //tarifas y recargos
     static final double TARIFA_MOTO = 5.00;
     static final double TARIFA_AUTO = 8.00;
@@ -104,9 +107,11 @@ public class ControlParqueo {
         scanner.close();
     }
 
-    //metodos
+    //metodos , mostrar nombre y carne
     public static void mostrarEncabezado() {
         System.out.println(" SISTEMA DE CONTROL DE PARQUEO");
+        System.out.println(" Marino Jeriel Cabrera Mendoza");
+        System.out.println(" Carné: 9941-23-8505");
     }
 
     public static double obtenerTarifa(int tipoVehiculo) {
