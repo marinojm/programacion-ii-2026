@@ -1,6 +1,6 @@
 import java.util.Scanner;
 public class ControlParqueo {
-    
+
 
     //tarifas y recargos
     static final double TARIFA_MOTO = 5.00;
