@@ -33,9 +33,9 @@ public class EnvioInternacional extends Envio {
         double recargo = costoBase * PORCENTAJE_RECARGO;
 
         System.out.println("Tipo: Envio Internacional");
-        System.out.println("Pais destino: + paisDestino");
+        System.out.println("Pais destino:" + paisDestino);
         System.out.printf("Cargo fijo gestion internacional: Q%.2f\n", CARGO_GESTION_FIJO);
-        System.out.printf("Recargo internacional (12%): Q%.2f km\n", recargo);
+        System.out.printf("Recargo internacional (12%%): Q%.2f\n", recargo);
         System.out.printf("COSTO FINAL: Q%.2f\n", calcularCostoFinal());
     }
 }

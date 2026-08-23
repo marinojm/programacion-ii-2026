@@ -3,8 +3,8 @@ public class Envio {
     private String nombreDestinatario;
     private double pesoKg;
 
-    public Envio(String codigoEnvio, String nombreDestinario, double pesoKg) {
-       this.codigoEnvio = codigoEnvio = codigoEnvio;
+    public Envio(String codigoEnvio, String nombreDestinatario, double pesoKg) {
+       this.codigoEnvio = codigoEnvio;
        this.nombreDestinatario = nombreDestinatario;
        this.pesoKg = pesoKg;
     }
@@ -13,7 +13,7 @@ public class Envio {
         return codigoEnvio;
     }
 
-    public String getCodigoDestinatario() {
+    public String getNombreDestinatario() {
         return nombreDestinatario;
     }
 
@@ -34,7 +34,7 @@ public class Envio {
         System.out.println("RESUMEN GENERAL DE ENVIO");
         System.out.println("Codigo: " + codigoEnvio);
         System.out.println("Destinatario: " + nombreDestinatario);
-        System.out.printf("Costo Final: Q%.2f\n" + calcularCostoFinal());
+        System.out.printf("Costo Final: Q%.2f\n", + calcularCostoFinal());
     }
 
     //overflow 2: recibir bool para mostrar dsglose completo o sencilla

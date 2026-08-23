@@ -41,9 +41,8 @@ public class Main {
                 String pais = solicitarTextoNoVacio(scanner, "Ingrese país de destino: ");
 
                 envio = new EnvioInternacional(codigo, destinatario, peso, pais);
-
-                envio.mostrarResumen(true);
             }
+                envio.mostrarResumen(true);
 
                 String respuesta = solicitarConfirmacion(scanner, "\n¿Desea registrar otro envío? (S/N): ");
                 if (respuesta.equalsIgnoreCase("N")) {

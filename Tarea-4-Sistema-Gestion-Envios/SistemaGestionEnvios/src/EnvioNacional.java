@@ -32,10 +32,11 @@ public class EnvioNacional extends Envio {
         }
 
         super.mostrarResumen(true);
-        double cargoDistancia = distanciaKm - 0.50;
-        System.out.println("Tipo: Evio Nacional");
+        double cargoDistancia = distanciaKm * 0.50;
+        System.out.println("Tipo: Envio Nacional");
         System.out.println("Departamento destino: " + departamentoDestino);
-        System.out.printf("Distancia: %.2f km\n", cargoDistancia);
-        System.out.printf("COSTO FINAL: Q%.2f km\n", calcularCostoFinal());
+        System.out.printf("Distancia: %.2f km\n", distanciaKm);
+        System.out.printf("Cargo por distancia (Q0.50/km): Q%.2f\n", cargoDistancia);
+        System.out.printf("COSTO FINAL: Q%.2f\n", calcularCostoFinal());
     }
 }
