@@ -9,7 +9,7 @@ public abstract class Figura {
         return nombre;
     }
 
-    public void mostrarInfotmacion() {
+    public void mostrarInformacion() {
         System.out.println("Figura: " + nombre);
     }
 

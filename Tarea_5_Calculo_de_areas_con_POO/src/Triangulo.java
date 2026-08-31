@@ -1,6 +1,5 @@
-public class Triangulo {
-    private double base;
-    private double altua;
+public class Triangulo extends Figura {    private double base;
+    private double altura;
 
     public Triangulo(String nombre, double base, double altura) {
         super(nombre);
