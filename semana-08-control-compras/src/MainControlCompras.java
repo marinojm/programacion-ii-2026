@@ -113,7 +113,6 @@ public class MainControlCompras {
         }
 
         //consulta de categoria
-        System.out.println("\n==============================");
         System.out.print("Ingrese una categoría para consultar: ");
         String consulta = scanner.nextLine().trim();
 
