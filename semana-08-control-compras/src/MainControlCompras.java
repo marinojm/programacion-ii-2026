@@ -115,7 +115,6 @@ public class MainControlCompras {
         //consulta de categoria
         System.out.print("Ingrese una categoría para consultar: ");
         String consulta = scanner.nextLine().trim();
-
         if (mapTotalesCategoria.containsKey(consulta)) {
             System.out.printf("Total gastado en %s: Q%.2f%n", consulta, mapTotalesCategoria.get(consulta));
         } else {
