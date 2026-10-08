@@ -5,7 +5,7 @@ public class ResumenInventario {
     private int totalUnidades;
     private double valorTotal;
 
-    public ResumenInventaio(int cantidadProductos, int totalUnidades, double valorTotal) {
+    public ResumenInventario(int cantidadProductos, int totalUnidades, double valorTotal) {
         this.cantidadProductos = cantidadProductos;
         this.totalUnidades = totalUnidades;
         this.valorTotal = valorTotal;
