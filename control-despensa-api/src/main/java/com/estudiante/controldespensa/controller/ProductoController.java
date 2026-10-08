@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
-
+@RestController
+@RequestMapping("/api/productos")
 public class ProductoController {
 
     private final List<Producto> productos = new ArrayList<>();
