@@ -17,7 +17,7 @@ Para resolver esta problemática, se desarrolló un servicio backend en Java con
 * **Lenguaje de programación:** Java 17 / 21
 * **Framework principal:** Spring Boot 3.x
 * **Herramienta de construcción y dependencias:** Maven
-* **Entorno de desarrollo (IDE):** IntelliJ IDEA / VS Code
+* **Entorno de desarrollo (IDE):** IntelliJ IDEA
 * **Formato de datos:** JSON
 
 ---
