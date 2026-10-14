@@ -1,10 +1,10 @@
-package com.estudiante.semana13vetcare;
+package com.umg.vetcare.vetcareapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Semana13VetcareApplicationTests {
+class VetcareApiApplicationTests {
 
     @Test
     void contextLoads() {

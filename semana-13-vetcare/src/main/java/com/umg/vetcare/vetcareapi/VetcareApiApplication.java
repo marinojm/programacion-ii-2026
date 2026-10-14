@@ -1,13 +1,13 @@
-package com.estudiante.semana13vetcare;
+package com.umg.vetcare.vetcareapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Semana13VetcareApplication {
+public class VetcareApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Semana13VetcareApplication.class, args);
+        SpringApplication.run(VetcareApiApplication.class, args);
     }
 
 }

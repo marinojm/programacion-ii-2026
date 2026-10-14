@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetCare | Administración de mascotas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-principal: #176b87;
+            --color-secundario: #64ccc5;
+            --color-fondo: #f4f8fa;
+            --color-texto: #24343b;
+        }
+        body {
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            min-height: 100vh;
+        }
+        .encabezado {
+            color: white;
+            background: linear-gradient(
+                    135deg,
+                    #0d4c67,
+                    #176b87,
+                    #64ccc5
+            );
+            box-shadow: 0 4px 18px
+            rgba(0, 0, 0, 0.15);
+        }
+        .encabezado h1 {
+            font-weight: 700;
+        }
+        .encabezado p {
+            opacity: 0.9;
+        }
+        .tarjeta-formulario,
+        .tarjeta-listado {
+            border: none;
+            border-radius: 18px;
+            box-shadow: 0 8px 28px
+            rgba(34, 64, 74, 0.10);
+        }
+        .tarjeta-formulario {
+            position: sticky;
+            top: 25px;
+        }
+        .form-control,
+        .form-select {
+            border-radius: 10px;
+        }
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--color-secundario);
+            box-shadow: 0 0 0 0.2rem
+            rgba(100, 204, 197, 0.25);
+        }
+        .btn-vetcare {
+            color: white;
+            background-color: var(--color-principal);
+            border: none;
+            border-radius: 10px;
+        }
+        .btn-vetcare:hover {
+            color: white;
+            background-color: #0d4c67;
+        }
+        .table thead th {
+            color: var(--color-principal);
+            white-space: nowrap;
+        }
+        .badge-activa {
+            background-color: #198754;
+        }
+        .badge-inactiva {
+            background-color: #6c757d;
+        }
+        footer {
+            color: #62747c;
+        }
+        @media (max-width: 991px) {
+            .tarjeta-formulario {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="encabezado">
+    <div class="container py-5">
+        <h1>🐾 VetCare</h1>
+        <p class="mb-0">Administración de pacientes veterinarios</p>
+    </div>
+</header>
+<main class="container my-5">
+    <div id="mensaje"></div>
+    <div class="row g-4">
+        <section class="col-lg-4">
+            <div class="card tarjeta-formulario">
+                <div class="card-body p-4">
+                    <h2 id="tituloFormulario" class="h4 mb-4">Registrar mascota</h2>
+
+                    <form id="formMascota">
+
+                        <!-- ID oculto -->
+                        <input
+                                type="hidden"
+                                id="id">
+
+                        <!-- Código -->
+                        <div class="mb-3">
+
+                            <label
+                                    for="codigo"
+                                    class="form-label">
+                                Código
+                            </label>
+
+                            <input
+                                    type="text"
+                                    id="codigo"
+                                    class="form-control"
+                                    placeholder="Ejemplo: VET-001"
+                                    maxlength="20"
+                                    required>
+
+                        </div>
+
+                        <!-- Nombre -->
+                        <div class="mb-3">
+
+                            <label
+                                    for="nombre"
+                                    class="form-label">
+                                Nombre
+                            </label>
+
+                            <input
+                                    type="text"
+                                    id="nombre"
+                                    class="form-control"
+                                    placeholder="Nombre de la mascota"
+                                    maxlength="80"
+                                    required>
+
+                        </div>
+
+                        <!-- Especie -->
+                        <div class="mb-3">
+
+                            <label
+                                    for="especie"
+                                    class="form-label">
+                                Especie
+                            </label>
+
+                            <input
+                                    type="text"
+                                    id="especie"
+                                    class="form-control"
+                                    placeholder="Ejemplo: Perro"
+                                    maxlength="30"
+                                    required>
+
+                        </div>
+
+                        <div class="row">
+
+                            <!-- Edad -->
+                            <div class="col-md-6 mb-3">
+
+                                <label
+                                        for="edadMeses"
+                                        class="form-label">
+                                    Edad en meses
+                                </label>
+
+                                <input
+                                        type="number"
+                                        id="edadMeses"
+                                        class="form-control"
+                                        min="0"
+                                        placeholder="12"
+                                        required>
+
+                            </div>
+
+                            <!-- Peso -->
+                            <div class="col-md-6 mb-3">
+
+                                <label
+                                        for="peso"
+                                        class="form-label">
+                                    Peso en kg
+                                </label>
+
+                                <input
+                                        type="number"
+                                        id="peso"
+                                        class="form-control"
+                                        min="0.01"
+                                        step="0.01"
+                                        placeholder="5.50"
+                                        required>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Estado -->
+                        <div class="form-check form-switch mb-4">
+
+                            <input
+                                    type="checkbox"
+                                    id="activa"
+                                    class="form-check-input"
+                                    checked>
+
+                            <label
+                                    for="activa"
+                                    class="form-check-label">
+                                Mascota activa
+                            </label>
+
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-grid gap-2">
+
+                            <button
+                                    type="submit"
+                                    id="btnGuardar"
+                                    class="btn btn-vetcare">
+                                Guardar mascota
+                            </button>
+
+                            <button
+                                    type="button"
+                                    class="btn btn-outline-secondary"
+                                    onclick="limpiarFormulario()">
+                                Limpiar formulario
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Listado -->
+        <section class="col-lg-8">
+
+            <div class="card tarjeta-listado">
+
+                <div class="card-body p-4">
+
+                    <div
+                            class="d-flex
+                               flex-column
+                               flex-md-row
+                               justify-content-between
+                               align-items-md-center
+                               gap-3
+                               mb-4">
+
+                        <div>
+
+                            <h2 class="h4 mb-1">
+                                Pacientes registrados
+                            </h2>
+
+                            <small class="text-secondary">
+                                Información almacenada en PostgreSQL
+                            </small>
+
+                        </div>
+
+                        <button
+                                type="button"
+                                class="btn btn-outline-primary"
+                                onclick="cargarMascotas()">
+                            Actualizar listado
+                        </button>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table
+                                class="table
+                                   table-hover
+                                   align-middle">
+
+                            <thead>
+
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Especie</th>
+                                <th>Edad</th>
+                                <th>Peso</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="tablaMascotas">
+
+                            <tr>
+                                <td
+                                        colspan="7"
+                                        class="text-center">
+                                    Cargando mascotas...
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+</main>
+
+<!-- Pie de página -->
+<footer class="text-center py-4">
+
+    <small>
+        Programación II · API REST con Spring Boot
+    </small>
+
+</footer>
+
+<!-- Bootstrap JavaScript -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<!-- JavaScript de la aplicación -->
+<script>
+    /*
+     * Dirección principal de la API.
+     *
+     * Si el controlador utiliza otra ruta,
+     * solamente debe cambiarse esta línea.
+     */
+    const API_URL = "/api/mascotas";
+
+    /*
+     * Guarda temporalmente las mascotas
+     * obtenidas desde la API.
+     */
+    let mascotasRegistradas = [];
+
+    /*
+     * Referencias a elementos del HTML.
+     */
+    const formulario =
+        document.getElementById("formMascota");
+
+    const tablaMascotas =
+        document.getElementById("tablaMascotas");
+
+    const campoId =
+        document.getElementById("id");
+
+    const tituloFormulario =
+        document.getElementById("tituloFormulario");
+
+    const botonGuardar =
+        document.getElementById("btnGuardar");
+
+    /*
+     * Cuando el documento esté listo,
+     * se consultarán las mascotas.
+     */
+    document.addEventListener(
+        "DOMContentLoaded",
+        cargarMascotas
+    );
+
+    /*
+     * Cuando se envíe el formulario,
+     * se registrará o actualizará
+     * una mascota.
+     */
+    formulario.addEventListener(
+        "submit",
+        guardarMascota
+    );
+
+    /*
+     * GET
+     *
+     * Obtiene todas las mascotas
+     * almacenadas en PostgreSQL.
+     */
+    async function cargarMascotas() {
+
+        tablaMascotas.innerHTML = `
+            <tr>
+                <td
+                    colspan="7"
+                    class="text-center">
+                    Cargando mascotas...
+                </td>
+            </tr>
+        `;
+
+        try {
+
+            const respuesta =
+                await fetch(API_URL);
+
+            if (!respuesta.ok) {
+                throw new Error(
+                    "No fue posible consultar las mascotas."
+                );
+            }
+
+            mascotasRegistradas =
+                await respuesta.json();
+
+            mostrarMascotas();
+
+        } catch (error) {
+
+            tablaMascotas.innerHTML = `
+                <tr>
+                    <td
+                        colspan="7"
+                        class="text-center text-danger">
+                        ${escaparHTML(error.message)}
+                    </td>
+                </tr>
+            `;
+
+            mostrarMensaje(
+                error.message,
+                "danger"
+            );
+        }
+    }
+
+    /*
+     * Construye las filas de la tabla.
+     */
+    function mostrarMascotas() {
+
+        if (mascotasRegistradas.length === 0) {
+
+            tablaMascotas.innerHTML = `
+                <tr>
+                    <td
+                        colspan="7"
+                        class="text-center text-secondary py-4">
+                        No hay mascotas registradas.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        tablaMascotas.innerHTML =
+            mascotasRegistradas
+                .map(mascota => {
+
+                    const estado =
+                        mascota.activa
+                            ? `
+                                <span
+                                    class="badge badge-activa">
+                                    Activa
+                                </span>
+                            `
+                            : `
+                                <span
+                                    class="badge badge-inactiva">
+                                    Inactiva
+                                </span>
+                            `;
+
+                    return `
+                        <tr>
+
+                            <td>
+                                ${escaparHTML(mascota.codigo)}
+                            </td>
+
+                            <td>
+                                ${escaparHTML(mascota.nombre)}
+                            </td>
+
+                            <td>
+                                ${escaparHTML(mascota.especie)}
+                            </td>
+
+                            <td>
+                                ${mascota.edadMeses} meses
+                            </td>
+
+                            <td>
+                                ${Number(mascota.peso).toFixed(2)} kg
+                            </td>
+
+                            <td>
+                                ${estado}
+                            </td>
+
+                            <td class="text-nowrap">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-warning"
+                                    onclick="editarMascota(${mascota.id})">
+                                    Editar
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-danger"
+                                    onclick="eliminarMascota(${mascota.id})">
+                                    Eliminar
+                                </button>
+
+                            </td>
+
+                        </tr>
+                    `;
+
+                })
+                .join("");
+    }
+
+    /*
+     * POST o PUT
+     *
+     * Sin ID:
+     * registra una mascota con POST.
+     *
+     * Con ID:
+     * actualiza una mascota con PUT.
+     */
+    async function guardarMascota(evento) {
+
+        evento.preventDefault();
+
+        const id = campoId.value;
+
+        /*
+         * Construcción del objeto JavaScript
+         * que posteriormente se convertirá
+         * a JSON.
+         */
+        const mascota = {
+
+            codigo:
+                document
+                    .getElementById("codigo")
+                    .value
+                    .trim(),
+
+            nombre:
+                document
+                    .getElementById("nombre")
+                    .value
+                    .trim(),
+
+            especie:
+                document
+                    .getElementById("especie")
+                    .value
+                    .trim(),
+
+            edadMeses:
+                Number(
+                    document
+                        .getElementById("edadMeses")
+                        .value
+                ),
+
+            peso:
+                Number(
+                    document
+                        .getElementById("peso")
+                        .value
+                ),
+
+            activa:
+            document
+                .getElementById("activa")
+                .checked
+        };
+
+        /*
+         * Si existe un ID utilizamos PUT.
+         * De lo contrario utilizamos POST.
+         */
+        const metodo =
+            id ? "PUT" : "POST";
+
+        const url =
+            id
+                ? `${API_URL}/${id}`
+                : API_URL;
+
+        try {
+
+            const respuesta =
+                await fetch(
+                    url,
+                    {
+                        method: metodo,
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(mascota)
+                    }
+                );
+
+            if (!respuesta.ok) {
+
+                const detalle =
+                    await respuesta.text();
+
+                throw new Error(
+                    detalle ||
+                    "No fue posible guardar la mascota."
+                );
+            }
+
+            mostrarMensaje(
+                id
+                    ? "Mascota actualizada correctamente."
+                    : "Mascota registrada correctamente.",
+                "success"
+            );
+
+            limpiarFormulario();
+
+            await cargarMascotas();
+
+        } catch (error) {
+
+            mostrarMensaje(
+                error.message,
+                "danger"
+            );
+        }
+    }
+
+    /*
+     * Coloca los datos de la mascota
+     * seleccionada dentro del formulario.
+     */
+    function editarMascota(id) {
+
+        const mascota =
+            mascotasRegistradas.find(
+                item => item.id === id
+            );
+
+        if (!mascota) {
+
+            mostrarMensaje(
+                "No se encontró la mascota seleccionada.",
+                "warning"
+            );
+
+            return;
+        }
+
+        campoId.value =
+            mascota.id;
+
+        document
+            .getElementById("codigo")
+            .value =
+            mascota.codigo;
+
+        document
+            .getElementById("nombre")
+            .value =
+            mascota.nombre;
+
+        document
+            .getElementById("especie")
+            .value =
+            mascota.especie;
+
+        document
+            .getElementById("edadMeses")
+            .value =
+            mascota.edadMeses;
+
+        document
+            .getElementById("peso")
+            .value =
+            mascota.peso;
+
+        document
+            .getElementById("activa")
+            .checked =
+            mascota.activa;
+
+        tituloFormulario.textContent =
+            "Modificar mascota";
+
+        botonGuardar.textContent =
+            "Actualizar mascota";
+
+        /*
+         * Lleva la pantalla hacia arriba
+         * para mostrar el formulario.
+         */
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+    /*
+     * DELETE
+     *
+     * Elimina una mascota por su ID.
+     */
+    async function eliminarMascota(id) {
+
+        const mascota =
+            mascotasRegistradas.find(
+                item => item.id === id
+            );
+
+        const nombreMascota =
+            mascota
+                ? mascota.nombre
+                : "esta mascota";
+
+        const confirmado =
+            confirm(
+                `¿Desea eliminar a ${nombreMascota}?`
+            );
+
+        if (!confirmado) {
+            return;
+        }
+
+        try {
+
+            const respuesta =
+                await fetch(
+                    `${API_URL}/${id}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+            if (!respuesta.ok) {
+
+                const detalle =
+                    await respuesta.text();
+
+                throw new Error(
+                    detalle ||
+                    "No fue posible eliminar la mascota."
+                );
+            }
+
+            mostrarMensaje(
+                "Mascota eliminada correctamente.",
+                "success"
+            );
+
+            /*
+             * Si se estaba editando la mascota
+             * que fue eliminada, limpiamos
+             * el formulario.
+             */
+            if (campoId.value === String(id)) {
+                limpiarFormulario();
+            }
+
+            await cargarMascotas();
+
+        } catch (error) {
+
+            mostrarMensaje(
+                error.message,
+                "danger"
+            );
+        }
+    }
+
+    /*
+     * Limpia el formulario y regresa
+     * al modo de registro.
+     */
+    function limpiarFormulario() {
+
+        formulario.reset();
+
+        campoId.value = "";
+
+        document
+            .getElementById("activa")
+            .checked = true;
+
+        tituloFormulario.textContent =
+            "Registrar mascota";
+
+        botonGuardar.textContent =
+            "Guardar mascota";
+    }
+
+    /*
+     * Muestra un mensaje Bootstrap.
+     *
+     * Tipos disponibles:
+     * success, danger, warning e info.
+     */
+    function mostrarMensaje(texto, tipo) {
+
+        const contenedor =
+            document.getElementById("mensaje");
+
+        contenedor.innerHTML = `
+            <div
+                class="alert
+                       alert-${tipo}
+                       alert-dismissible
+                       fade
+                       show"
+                role="alert">
+
+                ${escaparHTML(texto)}
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Cerrar">
+                </button>
+
+            </div>
+        `;
+
+        /*
+         * Oculta automáticamente el mensaje
+         * después de cinco segundos.
+         */
+        setTimeout(() => {
+            contenedor.innerHTML = "";
+        }, 5000);
+    }
+
+    /*
+     * Evita que el contenido recibido
+     * sea interpretado como HTML.
+     */
+    function escaparHTML(valor) {
+
+        return String(valor ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+</script>
+
+</body>
+</html>
