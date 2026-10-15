@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión - Biblioteca Personal</title>
+    <!-- Importando Bootstrap 5 para el diseño -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container my-5">
+    <!-- Encabezado de la aplicación -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">Biblioteca Personal</h1>
+        <p class="text-muted">Sistema de control y registro de libros </p>
+    </div>
+
+    <!-- Contenedor para mensajes de éxito o error -->
+    <div id="mensajeAlerta" class="alert d-none mb-3" role="alert"></div>
+
+    <div class="row">
+        <!-- Formulario para Registrar Libros -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Registrar Nuevo Libro</h5>
+                </div>
+                <div class="card-body">
+                    <form id="formLibro">
+                        <div class="mb-3">
+                            <label for="codigo" class="form-label">Código:</label>
+                            <input type="text" class="form-control" id="codigo" required maxlength="20" placeholder="Ej. LIB-001">
+                        </div>
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título:</label>
+                            <input type="text" class="form-control" id="titulo" required maxlength="120" placeholder="Título del libro">
+                        </div>
+                        <div class="mb-3">
+                            <label for="autor" class="form-label">Autor:</label>
+                            <input type="text" class="form-control" id="autor" required maxlength="100" placeholder="Nombre del autor">
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">Categoría:</label>
+                            <input type="text" class="form-control" id="categoria" required maxlength="50" placeholder="Ej. Literatura, Tecnología">
+                        </div>
+                        <div class="mb-3">
+                            <label for="anioPublicacion" class="form-label">Año de Publicación:</label>
+                            <input type="number" class="form-control" id="anioPublicacion" required min="1" placeholder="Ej. 2024">
+                        </div>
+                        <div class="mb-3">
+                            <label for="precio" class="form-label">Precio ($):</label>
+                            <input type="number" class="form-control" id="precio" required min="0.01" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="disponible" checked>
+                            <label class="form-check-label" for="disponible">Disponible</label>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Guardar Libro</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla para Listar Libros -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Inventario de Libros</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle">
+                            <thead class="table-dark">
+                            <tr>
+                                <th>Código</th>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Categoría</th>
+                                <th>Año</th>
+                                <th>Precio</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tablaLibrosBody">
+                            <!-- Los datos se cargarán dinámicamente con JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script de JavaScript con Fetch y manejo de alertas -->
+<script>
+    const API_URL = '/api/libros';
+
+    // 1. Cargar libros al iniciar la página
+    document.addEventListener('DOMContentLoaded', () => {
+        cargarLibros();
+    });
+
+    // Función para mostrar alertas visuales de éxito o error
+    function mostrarAlerta(mensaje, esExito = true) {
+        const alerta = document.getElementById('mensajeAlerta');
+        alerta.className = `alert ${esExito ? 'alert-success' : 'alert-danger'} mb-3`;
+        alerta.textContent = mensaje;
+        alerta.classList.remove('d-none');
+
+        // Ocultar automáticamente después de 4 segundos
+        setTimeout(() => {
+            alerta.classList.add('d-none');
+        }, 4000);
+    }
+
+    // 2. FUNCIÓN GET: Listar libros en la tabla
+    async function cargarLibros() {
+        try {
+            const respuesta = await fetch(API_URL);
+            if (!respuesta.ok) throw new Error('No se pudo obtener el inventario.');
+
+            const libros = await respuesta.json();
+            const tbody = document.getElementById('tablaLibrosBody');
+            tbody.innerHTML = '';
+
+            if (libros.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted">No hay libros registrados.</td></tr>`;
+                return;
+            }
+
+            libros.forEach(libro => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${libro.codigo}</strong></td>
+                        <td>${libro.titulo}</td>
+                        <td>${libro.autor}</td>
+                        <td>${libro.categoria}</td>
+                        <td>${libro.anioPublicacion}</td>
+                        <td>$${parseFloat(libro.precio).toFixed(2)}</td>
+                        <td>
+                            <span class="badge ${libro.disponible ? 'bg-success' : 'bg-secondary'}">
+                                ${libro.disponible ? 'Disponible' : 'No disponible'}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarLibro(${libro.id})">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        } catch (error) {
+            console.error(error);
+            mostrarAlerta('Error al cargar los libros desde el servidor.', false);
+        }
+    }
+
+    // 3. FUNCIÓN POST: Registrar nuevo libro
+    document.getElementById('formLibro').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const nuevoLibro = {
+            codigo: document.getElementById('codigo').value.trim(),
+            titulo: document.getElementById('titulo').value.trim(),
+            autor: document.getElementById('autor').value.trim(),
+            categoria: document.getElementById('categoria').value.trim(),
+            anioPublicacion: parseInt(document.getElementById('anioPublicacion').value),
+            precio: parseFloat(document.getElementById('precio').value),
+            disponible: document.getElementById('disponible').checked
+        };
+
+        try {
+            const respuesta = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(nuevoLibro)
+            });
+
+            if (!respuesta.ok) {
+                throw new Error('No se pudo registrar el libro. Verifique si el código ya existe.');
+            }
+
+            mostrarAlerta('¡Libro registrado correctamente!');
+            document.getElementById('formLibro').reset();
+            document.getElementById('disponible').checked = true;
+            cargarLibros();
+
+        } catch (error) {
+            console.error(error);
+            mostrarAlerta(error.message || 'Error al intentar guardar el libro.', false);
+        }
+    });
+
+    // 4. FUNCIÓN DELETE: Eliminar libro con confirmación
+    async function eliminarLibro(id) {
+        const confirmado = confirm('¿Desea eliminar el libro seleccionado?');
+        if (!confirmado) return;
+
+        try {
+            const respuesta = await fetch(`${API_URL}/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (!respuesta.ok) throw new Error('No se pudo eliminar el registro.');
+
+            mostrarAlerta('Libro eliminado correctamente.');
+            cargarLibros();
+
+        } catch (error) {
+            console.error(error);
+            mostrarAlerta('Error al intentar eliminar el libro.', false);
+        }
+    }
+</script>
+</body>
+</html>
