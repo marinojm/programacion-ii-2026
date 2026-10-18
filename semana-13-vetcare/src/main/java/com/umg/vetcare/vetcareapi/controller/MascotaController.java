@@ -5,6 +5,9 @@ import com.umg.vetcare.vetcareapi.repository.MascotaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import java.util.List;
+
 
 import java.util.List;
 
