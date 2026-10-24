@@ -31,8 +31,25 @@ public class SalonController {
         return ResponseEntity.ok(salonService.obtenerPorId(id));
     }
 
+    // Filtro: Buscar salones por capacidad mínima
+    @GetMapping("/capacidad/{capacidad}")
+    public ResponseEntity<List<Salon>> buscarPorCapacidad(@PathVariable Integer capacidad) {
+        return ResponseEntity.ok(salonService.buscarPorCapacidad(capacidad));
+    }
+
     @PostMapping
     public ResponseEntity<Salon> crearSalon(@Valid @RequestBody SalonDto dto) {
         return new ResponseEntity<>(salonService.crearSalon(dto), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Salon> actualizarSalon(@PathVariable Long id, @Valid @RequestBody SalonDto dto) {
+        return ResponseEntity.ok(salonService.actualizarSalon(id, dto));
+    }
+
+    @PatchMapping("/{id}/desactivar")
+    public ResponseEntity<String> desactivarSalon(@PathVariable Long id) {
+        salonService.cambiarEstado(id, false);
+        return ResponseEntity.ok("Salón desactivado correctamente.");
     }
 }
