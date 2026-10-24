@@ -25,6 +25,10 @@ public class SalonService {
                 .orElseThrow(() -> new RuntimeException("El salón con ID " + id + " no existe."));
     }
 
+    public List<Salon> buscarPorCapacidad(Integer capacidad) {
+        return salonRepository.findByActivoTrueAndCapacidadGreaterThanEqual(capacidad);
+    }
+
     public Salon crearSalon(SalonDto dto) {
         Salon salon = new Salon();
         salon.setNombre(dto.getNombre());
@@ -34,5 +38,23 @@ public class SalonService {
         salon.setActivo(dto.getActivo() != null ? dto.getActivo() : true);
 
         return salonRepository.save(salon);
+    }
+
+    public Salon actualizarSalon(Long id, SalonDto dto) {
+        Salon salon = obtenerPorId(id);
+        salon.setNombre(dto.getNombre());
+        salon.setUbicacion(dto.getUbicacion());
+        salon.setCapacidad(dto.getCapacidad());
+        salon.setTarifaPorHora(dto.getTarifaPorHora());
+        if (dto.getActivo() != null) {
+            salon.setActivo(dto.getActivo());
+        }
+        return salonRepository.save(salon);
+    }
+
+    public void cambiarEstado(Long id, boolean activo) {
+        Salon salon = obtenerPorId(id);
+        salon.setActivo(activo);
+        salonRepository.save(salon);
     }
 }
