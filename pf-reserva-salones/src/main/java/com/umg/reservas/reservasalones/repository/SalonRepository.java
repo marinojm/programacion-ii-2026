@@ -5,7 +5,12 @@ import com.umg.reservas.reservasalones.entity.Salon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface SalonRepository extends JpaRepository<Salon, Long> {
-    //JpaRepository nos prove automaticamente métodos como save(), findAll(), findById(), deleteById()
+
+    // filtro3: Buscar salones activos con capacidad mayor o igual a un mínimo
+    List<Salon> findByActivoTrueAndCapacidadGreaterThanEqual(Integer capacidadMinima);
+
 }
