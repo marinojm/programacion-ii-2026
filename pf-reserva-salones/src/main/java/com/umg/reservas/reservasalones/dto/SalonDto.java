@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 
 public class SalonDto {
 
-    private Long id;
-
     @NotBlank(message = "El nombre del salón es obligatorio")
     @Size(max = 100, message = "El nombre no puede exceder los 100 caracteres")
     private String nombre;
@@ -23,19 +21,16 @@ public class SalonDto {
     private Integer capacidad;
 
     @NotNull(message = "La tarifa por hora es obligatoria")
-    @Min(value = 0, message = "La tarifa por hora debe ser mayor a cero")
+    @Min(value = 0, message = "La tarifa por hora debe ser mayor o igual a cero")
     private BigDecimal tarifaPorHora;
 
     private Boolean activo;
 
-    // constructores
+    // constructor vacío
     public SalonDto() {
     }
 
     // getters y setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
@@ -50,5 +45,4 @@ public class SalonDto {
 
     public Boolean getActivo() { return activo; }
     public void setActivo(Boolean activo) { this.activo = activo; }
-
 }

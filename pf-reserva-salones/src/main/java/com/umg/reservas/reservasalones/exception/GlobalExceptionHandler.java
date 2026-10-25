@@ -6,40 +6,45 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // captura errores de reglas de negocio (RuntimeException)
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Map<String, Object>> manejarRuntimeException(RuntimeException ex) {
+    // Captura la excepción de recurso no encontrado (404 Not Found)
+    @ExceptionHandler(RecursoNoEncontradoException.class)
+    public ResponseEntity<Map<String, Object>> manejarRecursoNoEncontrado(RecursoNoEncontradoException ex) {
         Map<String, Object> respuesta = new HashMap<>();
-        respuesta.put("timestamp", LocalDateTime.now());
-        respuesta.put("status", HttpStatus.BAD_REQUEST.value());
-        respuesta.put("error", "Error de Regla de Negocio");
-        respuesta.put("message", ex.getMessage());
+        respuesta.put("estado", HttpStatus.NOT_FOUND.value());
+        respuesta.put("mensaje", ex.getMessage());
 
-        return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(respuesta, HttpStatus.NOT_FOUND);
     }
 
-    // Captura errores de validacion de DTOs (@Valid / @NotNull / @Min, etc.)
+    // Captura errores de validación de DTOs (@Valid) -> (400 Bad Request)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> manejarValidaciones(MethodArgumentNotValidException ex) {
-        Map<String, Object> errores = new HashMap<>();
+        Map<String, String> errores = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errores.put(error.getField(), error.getDefaultMessage())
         );
 
         Map<String, Object> respuesta = new HashMap<>();
-        respuesta.put("timestamp", LocalDateTime.now());
-        respuesta.put("status", HttpStatus.BAD_REQUEST.value());
-        respuesta.put("error", "Error de Validación de Datos");
-        respuesta.put("detalles", errores);
+        respuesta.put("estado", HttpStatus.BAD_REQUEST.value());
+        respuesta.put("mensaje", "Los datos enviados no son válidos");
+        respuesta.put("errores", errores);
 
         return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
     }
 
+    // Captura errores de reglas de negocio genéricas (RuntimeException)
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, Object>> manejarRuntimeException(RuntimeException ex) {
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("estado", HttpStatus.BAD_REQUEST.value());
+        respuesta.put("mensaje", ex.getMessage());
+
+        return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+    }
 }
