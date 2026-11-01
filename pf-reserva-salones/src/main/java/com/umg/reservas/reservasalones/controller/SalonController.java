@@ -1,7 +1,7 @@
 package com.umg.reservas.reservasalones.controller;
 
 import com.umg.reservas.reservasalones.dto.SalonDto;
-import com.umg.reservas.reservasalones.entity.Salon;
+import com.umg.reservas.reservasalones.dto.SalonResponseDto;
 import com.umg.reservas.reservasalones.service.SalonService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,28 +22,27 @@ public class SalonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Salon>> listarSalones() {
+    public ResponseEntity<List<SalonResponseDto>> listarSalones() {
         return ResponseEntity.ok(salonService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Salon> obtenerPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(salonService.obtenerPorId(id));
+    public ResponseEntity<SalonResponseDto> obtenerPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(salonService.obtenerDtoPorId(id));
     }
 
-    // Filtro: Buscar salones por capacidad mínima
     @GetMapping("/capacidad/{capacidad}")
-    public ResponseEntity<List<Salon>> buscarPorCapacidad(@PathVariable Integer capacidad) {
+    public ResponseEntity<List<SalonResponseDto>> buscarPorCapacidad(@PathVariable Integer capacidad) {
         return ResponseEntity.ok(salonService.buscarPorCapacidad(capacidad));
     }
 
     @PostMapping
-    public ResponseEntity<Salon> crearSalon(@Valid @RequestBody SalonDto dto) {
+    public ResponseEntity<SalonResponseDto> crearSalon(@Valid @RequestBody SalonDto dto) {
         return new ResponseEntity<>(salonService.crearSalon(dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Salon> actualizarSalon(@PathVariable Long id, @Valid @RequestBody SalonDto dto) {
+    public ResponseEntity<SalonResponseDto> actualizarSalon(@PathVariable Long id, @Valid @RequestBody SalonDto dto) {
         return ResponseEntity.ok(salonService.actualizarSalon(id, dto));
     }
 

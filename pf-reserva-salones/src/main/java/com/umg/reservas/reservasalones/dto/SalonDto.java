@@ -1,5 +1,6 @@
 package com.umg.reservas.reservasalones.dto;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,16 +22,14 @@ public class SalonDto {
     private Integer capacidad;
 
     @NotNull(message = "La tarifa por hora es obligatoria")
-    @Min(value = 0, message = "La tarifa por hora debe ser mayor o igual a cero")
+    @DecimalMin(value = "0.01", message = "La tarifa por hora debe ser mayor a cero")
     private BigDecimal tarifaPorHora;
 
     private Boolean activo;
 
-    // constructor vacío
     public SalonDto() {
     }
 
-    // getters y setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 

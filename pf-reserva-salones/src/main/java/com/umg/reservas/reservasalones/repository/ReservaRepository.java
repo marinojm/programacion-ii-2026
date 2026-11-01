@@ -9,20 +9,22 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
-    // comprueba si ya hay una reserva confirmada para un salón en la misma fecha
+    //comprueba si ya hay una reserva confirmada para un salon en la misma fecha
     boolean existsBySalonIdAndFechaReservaAndEstadoNot(Long salonId, LocalDate fechaReserva, String estado);
 
-    // filtro1 Buscar reservas por fecha específica
+    //comprueba si hay traslape al actualizar (excluyendo el ID de la reserva actual)
+    boolean existsBySalonIdAndFechaReservaAndEstadoNotAndIdNot(Long salonId, LocalDate fechaReserva, String estado, Long id);
+
+    //filtro 1 Buscar reservas por fecha especifica
     List<Reserva> findByFechaReserva(LocalDate fechaReserva);
 
-    // filtro2: Buscar reservas por estado (ej. CONFIRMADA, CANCELADA)
+    //filtro 2 Busca reservas por estado
     List<Reserva> findByEstado(String estado);
 
-    // indicador/resumen: suma total de ingresos generados por reservas confirmadas
+    //ndicador/resumen: suma total de ingresos generados por reservas confirmadas
     @Query("SELECT COALESCE(SUM(r.costoTotal), 0) FROM Reserva r WHERE r.estado = 'CONFIRMADA'")
     BigDecimal sumarTotalIngresos();
 }

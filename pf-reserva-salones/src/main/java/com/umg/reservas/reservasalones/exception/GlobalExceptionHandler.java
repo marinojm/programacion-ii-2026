@@ -12,19 +12,27 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Captura la excepción de recurso no encontrado (404 Not Found)
+    // 404 Not Found: Cuando no se encuentra un recurso por ID
     @ExceptionHandler(RecursoNoEncontradoException.class)
-    public ResponseEntity<Map<String, Object>> manejarRecursoNoEncontrado(RecursoNoEncontradoException ex) {
+    public ResponseEntity<Object> manejarRecursoNoEncontrado(RecursoNoEncontradoException ex) {
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("estado", HttpStatus.NOT_FOUND.value());
         respuesta.put("mensaje", ex.getMessage());
-
         return new ResponseEntity<>(respuesta, HttpStatus.NOT_FOUND);
     }
 
-    // Captura errores de validación de DTOs (@Valid) -> (400 Bad Request)
+    // 409 Conflict: Cuando hay un conflicto de negocio (ej. fechas ocupadas, duplicados)
+    @ExceptionHandler(ConflictoExcepcion.class)
+    public ResponseEntity<Object> manejarConflicto(ConflictoExcepcion ex) {
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("estado", HttpStatus.CONFLICT.value());
+        respuesta.put("mensaje", ex.getMessage());
+        return new ResponseEntity<>(respuesta, HttpStatus.CONFLICT);
+    }
+
+    // 400 Bad Request: Errores de validación de DTOs (@Valid)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> manejarValidaciones(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Object> manejarValidaciones(MethodArgumentNotValidException ex) {
         Map<String, String> errores = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errores.put(error.getField(), error.getDefaultMessage())
@@ -34,17 +42,15 @@ public class GlobalExceptionHandler {
         respuesta.put("estado", HttpStatus.BAD_REQUEST.value());
         respuesta.put("mensaje", "Los datos enviados no son válidos");
         respuesta.put("errores", errores);
-
         return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
     }
 
-    // Captura errores de reglas de negocio genéricas (RuntimeException)
+    // 400 Bad Request: Otras reglas generales de RuntimeException que no sean conflictos específicos
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Map<String, Object>> manejarRuntimeException(RuntimeException ex) {
+    public ResponseEntity<Object> manejarRuntimeException(RuntimeException ex) {
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("estado", HttpStatus.BAD_REQUEST.value());
         respuesta.put("mensaje", ex.getMessage());
-
         return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
     }
 }
