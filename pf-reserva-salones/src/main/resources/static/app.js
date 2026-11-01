@@ -69,7 +69,7 @@ async function cargarSalones() {
                     </td>
                     <td>
                         <button class="btn btn-secondary" onclick="editarSalon(${salon.id}, '${salon.nombre}', '${salon.ubicacion}', ${salon.capacidad}, ${tarifa})">Editar</button>
-                        ${salon.activo ? `<button class="btn btn-danger" onclick="desactivarSalon(${salon.id})">Desactivar</button>` : ''}
+                        ${salon.activo ? `<button class="btn btn-danger" onclick="desactivarSalon(${salon.id}, '${salon.nombre}', '${salon.ubicacion}', ${salon.capacidad}, ${tarifa})">Desactivar</button>` : ''}
                     </td>
                 </tr>
             `;
@@ -78,7 +78,6 @@ async function cargarSalones() {
         showAlert(err.message, true);
     }
 }
-
 async function guardarSalon(event) {
     event.preventDefault();
     const id = document.getElementById('salonId').value;
@@ -113,27 +112,36 @@ async function guardarSalon(event) {
     }
 }
 
-async function desactivarSalon(id) {
+async function desactivarSalon(id, nombre, ubicacion, capacidad, tarifa) {
     if (!confirm('¿Desea desactivar este salón?')) return;
     try {
-        // Intentamos primero con PUT (común para cambiar el estado activo a falso)
-        let response = await fetch(`${API_BASE}/salones/${id}`, { method: 'PUT' });
+        // Construimos el DTO completo exigido por el backend, cambiando activo a false
+        const body = {
+            nombre: nombre,
+            ubicacion: ubicacion,
+            capacidad: parseInt(capacidad),
+            tarifaPorHora: parseFloat(tarifa),
+            activo: false
+        };
 
-        // Si el backend espera un DELETE o usa otra ruta, lo manejamos de forma segura
+        const response = await fetch(`${API_BASE}/salones/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
         if (!response.ok) {
-            response = await fetch(`${API_BASE}/salones/${id}`, { method: 'DELETE' });
+            const errorData = await response.json().catch(() => ({}));
+            const mensajeError = errorData.errores ? Object.values(errorData.errores).join(', ') : (errorData.mensaje || 'No se pudo desactivar el salón');
+            throw new Error(mensajeError);
         }
-
-        if (!response.ok) throw new Error('No se pudo desactivar el salón');
 
         showAlert('Salón desactivado correctamente');
         cargarSalones();
     } catch (err) {
-        showAlert('Error al desactivar: El salón cuenta con reservas activas asociadas', true);
+        showAlert(err.message, true);
     }
-}
-
-// ==========================================
+}// ==========================================
 // 2. GESTIÓN DE RESERVAS
 // ==========================================
 async function cargarReservas() {
