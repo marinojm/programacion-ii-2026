@@ -1,10 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PF-15 | Sistema de Reserva de Salones</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-$END$
+
+<header class="navbar">
+    <div class="logo">
+        <h2>🏛️ Sistema de Reserva de Salones</h2>
+        <span class="badge">PF-15</span>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- Tarjetas de Indicadores / Resumen -->
+    <section class="kpi-section">
+        <div class="kpi-card">
+            <h3>Total de Salones</h3>
+            <p id="totalSalones">0</p>
+        </div>
+        <div class="kpi-card">
+            <h3>Total de Reservas</h3>
+            <p id="totalReservas">0</p>
+        </div>
+        <div class="kpi-card highlight">
+            <h3>Estado del Sistema</h3>
+            <p id="estadoSistema">Operativo (HTTP 200)</p>
+        </div>
+    </section>
+
+    <!-- Contenedor de Alertas Globales -->
+    <div id="alertBox" class="alert hidden"></div>
+
+    <!-- Pestañas de Navegación -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('salones')">Gestión de Salones</button>
+        <button class="tab-btn" onclick="switchTab('reservas')">Gestión de Reservas</button>
+    </div>
+
+    <!-- SECCIÓN 1: GESTIÓN DE SALONES -->
+    <section id="salonesView" class="tab-content active">
+        <div class="section-header">
+            <h2>Catálogo de Salones</h2>
+            <button class="btn btn-primary" onclick="openSalonModal()">+ Nuevo Salón</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Ubicación</th>
+                    <th>Capacidad</th>
+                    <th>Precio/Hora</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="salonesTableBody">
+                <!-- Carga dinámica -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 2: GESTIÓN DE RESERVAS -->
+    <section id="reservasView" class="tab-content">
+        <div class="section-header">
+            <h2>Listado de Reservas</h2>
+            <div class="header-actions">
+                <!-- Filtro por Estado (Requisito de Filtros) -->
+                <select id="filtroEstado" onchange="filtrarReservas()" class="form-control">
+                    <option value="">-- Todos los estados --</option>
+                    <option value="CONFIRMADA">CONFIRMADA</option>
+                    <option value="CANCELADA">CANCELADA</option>
+                    <option value="PENDIENTE">PENDIENTE</option>
+                </select>
+                <button class="btn btn-primary" onclick="openReservaModal()">+ Nueva Reserva</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Salón</th>
+                    <th>Fecha Evento</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="reservasTableBody">
+                <!-- Carga dinámica -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<!-- MODAL SALÓN -->
+<div id="salonModal" class="modal hidden">
+    <div class="modal-content">
+        <h3 id="salonModalTitle">Registrar Salón</h3>
+        <form id="salonForm" onsubmit="guardarSalon(event)">
+            <input type="hidden" id="salonId">
+            <div class="form-group">
+                <label>Nombre del Salón</label>
+                <input type="text" id="salonNombre" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Ubicación / Edificio</label>
+                <input type="text" id="salonUbicacion" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Capacidad (personas)</label>
+                <input type="number" id="salonCapacidad" class="form-control" min="1" required>
+            </div>
+            <div class="form-group">
+                <label>Precio por Hora (Q)</label>
+                <input type="number" step="0.01" id="salonPrecio" class="form-control" min="0" required>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeSalonModal()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Salón</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL RESERVA -->
+<div id="reservaModal" class="modal hidden">
+    <div class="modal-content">
+        <h3 id="reservaModalTitle">Crear Nueva Reserva</h3>
+        <form id="reservaForm" onsubmit="guardarReserva(event)">
+            <input type="hidden" id="reservaId">
+            <div class="form-group">
+                <label>Nombre del Cliente</label>
+                <input type="text" id="reservaCliente" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Seleccionar Salón</label>
+                <select id="reservaSalonSelect" class="form-control" required>
+                    <!-- Carga dinámica de salones activios -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Fecha del Evento</label>
+                <input type="date" id="reservaFecha" class="form-control" required>
+            </div>
+            <div class="form-group inline-group">
+                <div>
+                    <label>Hora Inicio</label>
+                    <input type="time" id="reservaHoraInicio" class="form-control" required>
+                </div>
+                <div>
+                    <label>Hora Fin</label>
+                    <input type="time" id="reservaHoraFin" class="form-control" required>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeReservaModal()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Reserva</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
