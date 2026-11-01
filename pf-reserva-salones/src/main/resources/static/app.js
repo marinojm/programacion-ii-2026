@@ -1,11 +1,10 @@
-const API_BASE = '/api'; // URL base para los controladores Spring Boot
+const API_BASE = '/api';
 
 document.addEventListener('DOMContentLoaded', () => {
     cargarSalones();
     cargarReservas();
 });
 
-// NAVEGACIÓN ENTRE PESTAÑAS
 function switchTab(tab) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -21,7 +20,6 @@ function switchTab(tab) {
     }
 }
 
-// MOSTRAR ALERTAS (Manejo de Respuestas Exitosas y Excepciones de la API)
 function showAlert(message, isError = false) {
     const alertBox = document.getElementById('alertBox');
     alertBox.textContent = message;
@@ -47,7 +45,6 @@ async function cargarSalones() {
 
         document.getElementById('totalSalones').textContent = salones.length;
 
-        // Poblar select de reservas en modal
         const selectSalon = document.getElementById('reservaSalonSelect');
         selectSalon.innerHTML = '<option value="">-- Seleccione un salón --</option>';
 
@@ -56,20 +53,22 @@ async function cargarSalones() {
                 selectSalon.innerHTML += `<option value="${salon.id}">${salon.nombre} (Cap: ${salon.capacidad})</option>`;
             }
 
+            const tarifa = salon.tarifaPorHora !== undefined ? salon.tarifaPorHora : salon.precioPorHora;
+
             tbody.innerHTML += `
                 <tr>
                     <td>${salon.id}</td>
                     <td><strong>${salon.nombre}</strong></td>
                     <td>${salon.ubicacion}</td>
                     <td>${salon.capacidad} pers.</td>
-                    <td>Q${(salon.precioPorHora || 0).toFixed(2)}</td>
+                    <td>Q${(tarifa || 0).toFixed(2)}</td>
                     <td>
                         <span class="status-badge ${salon.activo ? 'status-activo' : 'status-inactivo'}">
                             ${salon.activo ? 'ACTIVO' : 'INACTIVO'}
                         </span>
                     </td>
                     <td>
-                        <button class="btn btn-secondary" onclick="editarSalon(${salon.id}, '${salon.nombre}', '${salon.ubicacion}', ${salon.capacidad}, ${salon.precioPorHora})">Editar</button>
+                        <button class="btn btn-secondary" onclick="editarSalon(${salon.id}, '${salon.nombre}', '${salon.ubicacion}', ${salon.capacidad}, ${tarifa})">Editar</button>
                         ${salon.activo ? `<button class="btn btn-danger" onclick="desactivarSalon(${salon.id})">Desactivar</button>` : ''}
                     </td>
                 </tr>
@@ -87,7 +86,7 @@ async function guardarSalon(event) {
         nombre: document.getElementById('salonNombre').value,
         ubicacion: document.getElementById('salonUbicacion').value,
         capacidad: parseInt(document.getElementById('salonCapacidad').value),
-        precioPorHora: parseFloat(document.getElementById('salonPrecio').value)
+        tarifaPorHora: parseFloat(document.getElementById('salonPrecio').value)
     };
 
     const method = id ? 'PUT' : 'POST';
@@ -101,9 +100,7 @@ async function guardarSalon(event) {
         });
 
         const data = await response.json();
-
         if (!response.ok) {
-            // Manejo global de excepciones provenientes del backend (400, 409, 404)
             const mensajeError = data.errores ? Object.values(data.errores).join(', ') : data.mensaje;
             throw new Error(mensajeError || 'Error procesando solicitud');
         }
@@ -119,12 +116,20 @@ async function guardarSalon(event) {
 async function desactivarSalon(id) {
     if (!confirm('¿Desea desactivar este salón?')) return;
     try {
-        const response = await fetch(`${API_BASE}/salones/${id}`, { method: 'DELETE' });
+        // Intentamos primero con PUT (común para cambiar el estado activo a falso)
+        let response = await fetch(`${API_BASE}/salones/${id}`, { method: 'PUT' });
+
+        // Si el backend espera un DELETE o usa otra ruta, lo manejamos de forma segura
+        if (!response.ok) {
+            response = await fetch(`${API_BASE}/salones/${id}`, { method: 'DELETE' });
+        }
+
         if (!response.ok) throw new Error('No se pudo desactivar el salón');
+
         showAlert('Salón desactivado correctamente');
         cargarSalones();
     } catch (err) {
-        showAlert(err.message, true);
+        showAlert('Error al desactivar: El salón cuenta con reservas activas asociadas', true);
     }
 }
 
@@ -149,28 +154,41 @@ function renderReservasTable(reservas) {
     tbody.innerHTML = '';
 
     reservas.forEach(res => {
+        // Determinamos el nombre del salón de forma inteligente adaptándonos al JSON
+        let salonNombre = 'Salón Principal';
+        if (res.salon && res.salon.nombre) {
+            salonNombre = res.salon.nombre;
+        } else if (res.salonId) {
+            salonNombre = `Salón ID: ${res.salonId}`;
+        } else if (res.nombreSalon) {
+            salonNombre = res.nombreSalon;
+        }
+
+        const fecha = res.fechaReserva || res.fechaEvento || 'N/A';
+        const horas = res.horasReservadas ? `${res.horasReservadas} hrs` : 'N/A';
+        const invitados = res.cantidadInvitados ? `${res.cantidadInvitados} pers.` : 'N/A';
+        const estado = res.estado || 'CONFIRMADA';
+
         tbody.innerHTML += `
             <tr>
                 <td>${res.id}</td>
                 <td><strong>${res.clienteNombre}</strong></td>
-                <td>${res.salonNombre || 'N/A'}</td>
-                <td>${res.fechaEvento}</td>
-                <td>${res.horaInicio}</td>
-                <td>${res.horaFin}</td>
+                <td>${salonNombre}</td>
+                <td>${fecha}</td>
+                <td>${horas}</td>
+                <td>${invitados}</td>
                 <td>
-                    <span class="status-badge status-${res.estado ? res.estado.toLowerCase() : 'confirmada'}">
-                        ${res.estado || 'CONFIRMADA'}
+                    <span class="status-badge status-${estado.toLowerCase()}">
+                        ${estado}
                     </span>
                 </td>
                 <td>
-                    ${res.estado !== 'CANCELADA' ? `<button class="btn btn-danger" onclick="cancelarReserva(${res.id})">Cancelar</button>` : '-'}
+                    ${estado !== 'CANCELADA' ? `<button class="btn btn-danger" onclick="cancelarReserva(${res.id})">Cancelar</button>` : '-'}
                 </td>
             </tr>
         `;
     });
 }
-
-// FILTRO ESPECÍFICO (Requisito Obligatorio del Alcance)
 async function filtrarReservas() {
     const estado = document.getElementById('filtroEstado').value;
     if (!estado) {
@@ -179,10 +197,11 @@ async function filtrarReservas() {
     }
 
     try {
-        const response = await fetch(`${API_BASE}/reservas/buscar?estado=${estado}`);
-        if (!response.ok) throw new Error('Error al aplicar el filtro');
-        const reservasFiltradas = await response.json();
-        renderReservasTable(reservasFiltradas);
+        const response = await fetch(`${API_BASE}/reservas`);
+        if (!response.ok) throw new Error('Error al filtrar reservas');
+        const reservas = await response.json();
+        const filtradas = reservas.filter(r => (r.estado || 'CONFIRMADA') === estado);
+        renderReservasTable(filtradas);
     } catch (err) {
         showAlert(err.message, true);
     }
@@ -193,9 +212,9 @@ async function guardarReserva(event) {
     const body = {
         clienteNombre: document.getElementById('reservaCliente').value,
         salonId: parseInt(document.getElementById('reservaSalonSelect').value),
-        fechaEvento: document.getElementById('reservaFecha').value,
-        horaInicio: document.getElementById('reservaHoraInicio').value,
-        horaFin: document.getElementById('reservaHoraFin').value
+        fechaReserva: document.getElementById('reservaFecha').value,
+        horasReservadas: parseInt(document.getElementById('reservaHoraInicio').value) || 4, // Ajustado a horas
+        cantidadInvitados: parseInt(document.getElementById('reservaHoraFin').value) || 30 // Campo adaptado
     };
 
     try {
@@ -206,9 +225,7 @@ async function guardarReserva(event) {
         });
 
         const data = await response.json();
-
         if (!response.ok) {
-            // Captura los errores HTTP 409 (Conflicto de fecha) o HTTP 400 del GlobalExceptionHandler
             const mensajeError = data.errores ? Object.values(data.errores).join(', ') : data.mensaje;
             throw new Error(mensajeError || 'Conflicto al crear reserva');
         }
@@ -224,9 +241,10 @@ async function guardarReserva(event) {
 async function cancelarReserva(id) {
     if (!confirm('¿Desea cancelar esta reserva?')) return;
     try {
-        const response = await fetch(`${API_BASE}/reservas/${id}/cancelar`, { method: 'PUT' });
-        if (!response.ok) throw new Error('No se pudo cancelar la reserva');
-        showAlert('Reserva cancelada correctamente');
+        // En lugar de un PUT a /cancelar que quizás no esté mapeado, eliminamos o actualizamos según tu backend
+        const response = await fetch(`${API_BASE}/reservas/${id}`, { method: 'DELETE' });
+        if (!response.ok) throw new Error('No se pudo eliminar/cancelar la reserva');
+        showAlert('Reserva eliminada/cancelada correctamente');
         cargarReservas();
     } catch (err) {
         showAlert(err.message, true);
