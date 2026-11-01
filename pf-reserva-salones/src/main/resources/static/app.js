@@ -62,7 +62,7 @@ async function cargarSalones() {
                     <td><strong>${salon.nombre}</strong></td>
                     <td>${salon.ubicacion}</td>
                     <td>${salon.capacidad} pers.</td>
-                    <td>Q${salon.precioPorHora.toFixed(2)}</td>
+                    <td>Q${(salon.precioPorHora || 0).toFixed(2)}</td>
                     <td>
                         <span class="status-badge ${salon.activo ? 'status-activo' : 'status-inactivo'}">
                             ${salon.activo ? 'ACTIVO' : 'INACTIVO'}
