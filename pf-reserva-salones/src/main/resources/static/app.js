@@ -31,9 +31,7 @@ function showAlert(message, isError = false) {
     }, 5000);
 }
 
-// ==========================================
-// 1. GESTIÓN DE SALONES
-// ==========================================
+// 1. GESTION DE SALONES
 async function cargarSalones() {
     try {
         const response = await fetch(`${API_BASE}/salones`);
@@ -141,9 +139,8 @@ async function desactivarSalon(id, nombre, ubicacion, capacidad, tarifa) {
     } catch (err) {
         showAlert(err.message, true);
     }
-}// ==========================================
+}
 // 2. GESTIÓN DE RESERVAS
-// ==========================================
 async function cargarReservas() {
     try {
         const response = await fetch(`${API_BASE}/reservas`);

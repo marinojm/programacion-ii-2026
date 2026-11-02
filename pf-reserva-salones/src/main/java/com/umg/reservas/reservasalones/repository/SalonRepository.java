@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface SalonRepository extends JpaRepository<Salon, Long> {
 
-    // filtro3: Buscar salones activos con capacidad mayor o igual a un mínimo
+    // filtro3:buscar salones activos con capacidad mayor o igual a un minimo
     List<Salon> findByActivoTrueAndCapacidadGreaterThanEqual(Integer capacidadMinima);
 
 }

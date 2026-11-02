@@ -12,7 +12,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 404 Not Found: Cuando no se encuentra un recurso por ID
+    //404 notfound: no se encuentra un recurso por ID
     @ExceptionHandler(RecursoNoEncontradoException.class)
     public ResponseEntity<Object> manejarRecursoNoEncontrado(RecursoNoEncontradoException ex) {
         Map<String, Object> respuesta = new HashMap<>();
@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(respuesta, HttpStatus.NOT_FOUND);
     }
 
-    // 409 Conflict: Cuando hay un conflicto de negocio (ej. fechas ocupadas, duplicados)
+    // 409 Conflict: cuando hay un conflicto de negocio (fechas ocupadas, duplicados)
     @ExceptionHandler(ConflictoExcepcion.class)
     public ResponseEntity<Object> manejarConflicto(ConflictoExcepcion ex) {
         Map<String, Object> respuesta = new HashMap<>();
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(respuesta, HttpStatus.CONFLICT);
     }
 
-    // 400 Bad Request: Errores de validación de DTOs (@Valid)
+    // 400 bad request: errores de validacion de DTOs (@Valid)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> manejarValidaciones(MethodArgumentNotValidException ex) {
         Map<String, String> errores = new HashMap<>();
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
     }
 
-    // 400 Bad Request: Otras reglas generales de RuntimeException que no sean conflictos específicos
+    // 400 bad request: otras reglas generales de RuntimeException que no sean conflictos especificos
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> manejarRuntimeException(RuntimeException ex) {
         Map<String, Object> respuesta = new HashMap<>();
