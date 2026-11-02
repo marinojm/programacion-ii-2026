@@ -1,0 +1,106 @@
+d06c89b,marinojm,Sun Nov 1 22:39:20 2026 -0600,Create SCRIPT PRUEBAS.sql
+67926b7,marinojm,Sun Nov 1 22:35:05 2026 -0600,POSTMAN
+721479e,marinojm,Sun Nov 1 22:06:01 2026 -0600,UPDATE
+5b895ac,marinojm,Sun Nov 1 21:57:14 2026 -0600,UPDATES
+59a618c,marinojm,Sun Nov 1 16:05:03 2026 -0600,Create RADME
+e0acc33,marinojm,Sun Nov 1 16:00:50 2026 -0600,Update EVIDENCIAS PF-15-RESERVA-SALONES.docx
+82940e1,marinojm,Sun Nov 1 16:00:44 2026 -0600,Create Diagrama_Entidades_PF15.drawio.png
+379bb6f,marinojm,Sun Nov 1 15:15:37 2026 -0600,Update app.js
+ff4cb87,marinojm,Sun Nov 1 14:51:32 2026 -0600,Update app.js
+ede20b2,marinojm,Sun Nov 1 12:45:52 2026 -0600,Update app.js
+3f1abd6,marinojm,Sun Nov 1 12:21:57 2026 -0600,Update app.js
+ef731d3,marinojm,Sun Nov 1 12:21:37 2026 -0600,Create app.js
+7859bb2,marinojm,Sun Nov 1 12:20:07 2026 -0600,create css
+3b17d97,marinojm,Sun Nov 1 12:16:53 2026 -0600,Update index.html
+9b75d5d,marinojm,Sun Nov 1 12:15:44 2026 -0600,correcciones avance 2
+fbc3fd2,marinojm,Sun Oct 25 15:42:30 2026 -0600,Tarea 12 — Excepciones y relaciones entre entidades
+4d5fb12,marinojm,Sat Oct 24 14:59:18 2026 -0600,Update EVIDENCIAS PF-15-RESERVA-SALONES.docx
+2d0fc46,marinojm,Sat Oct 24 14:57:17 2026 -0600,Update application.properties
+b10673b,marinojm,Sat Oct 24 14:52:15 2026 -0600,Update ReservaController.java
+411e612,marinojm,Sat Oct 24 14:50:52 2026 -0600,Update SalonController.java
+2289b77,marinojm,Sat Oct 24 14:49:53 2026 -0600,Update ReservaService.java
+ca25252,marinojm,Sat Oct 24 14:48:44 2026 -0600,Update SalonService.java
+f18e0d5,marinojm,Sat Oct 24 14:48:01 2026 -0600,Create ResumenIndicadorDto.java
+fab1ff2,marinojm,Sat Oct 24 14:46:47 2026 -0600,Update SalonRepository.java
+2e079fd,marinojm,Sat Oct 24 14:44:50 2026 -0600,Update ReservaRepository.java
+0fed7cb,marinojm,Sat Oct 24 13:56:07 2026 -0600,Create Controller
+7b09fcf,marinojm,Sat Oct 24 13:53:31 2026 -0600,Update Service / Exception
+34cc53d,marinojm,Sat Oct 24 13:41:33 2026 -0600,Create ReservaService.java
+8014d54,marinojm,Sat Oct 24 13:37:05 2026 -0600,Update ReservaRepository.java
+86c88e5,marinojm,Sat Oct 24 13:32:33 2026 -0600,CREATE DTO´S
+0c0660b,marinojm,Sun Oct 18 12:36:57 2026 -0600,CREATE README
+164d747,marinojm,Sat Oct 17 01:50:55 2026 -0600,Update EVIDENCIAS PF-15-RESERVA-SALONES.docx
+3f8dcea,marinojm,Sat Oct 17 01:49:37 2026 -0600,Create EVIDENCIAS PF-15-RESERVA-SALONES.docx
+723d602,marinojm,Sat Oct 17 01:44:19 2026 -0600,configuración inicial, conexión a PostgreSQL y entidades JPA (Avance 1)
+06cf25a,marinojm,Wed Oct 14 22:26:12 2026 -0600,Update application.properties
+587e05e,marinojm,Wed Oct 14 22:23:17 2026 -0600,ACTUALIZACIONES TAREA 11
+cdc8248,marinojm,Wed Oct 14 20:06:19 2026 -0600,Update application.properties
+3098aa5,marinojm,Wed Oct 14 19:31:36 2026 -0600,Update application.properties
+0af1387,marinojm,Tue Oct 13 23:01:49 2026 -0600,Create biblioteca_personal.sql
+45625e0,marinojm,Tue Oct 13 23:00:15 2026 -0600,Create README.md
+7aa9172,marinojm,Tue Oct 13 22:51:44 2026 -0600,SEMANA 13 BIBLBIOTEAPI
+56e752e,marinojm,Wed Oct 7 22:35:58 2026 -0600,Update README.md
+51ccbed,marinojm,Wed Oct 7 22:35:06 2026 -0600,Update README.md
+1288815,marinojm,Wed Oct 7 22:21:59 2026 -0600,Create README.md
+040769c,marinojm,Wed Oct 7 22:17:42 2026 -0600,Evidencias
+53437b2,marinojm,Wed Oct 7 21:40:13 2026 -0600,fix
+877f3d6,marinojm,Wed Oct 7 21:00:03 2026 -0600,REST controller
+7f20fdd,marinojm,Wed Oct 7 20:46:16 2026 -0600,REST controller ProductoController
+0dbb6f9,marinojm,Wed Oct 7 20:13:50 2026 -0600,Class ResumenInventario
+8d09a49,marinojm,Wed Oct 7 19:59:31 2026 -0600,Spring Web Java Class
+cd4783a,marinojm,Sun Oct 4 01:55:02 2026 -0600,CREATE TAREA 9
+e048799,marinojm,Sun Sep 27 21:24:44 2026 -0600,CARGA COMPLETA DOCUMENTACION
+f280ccc,marinojm,Sun Sep 27 21:02:53 2026 -0600,Create Evidencias_Maven_HTTP_REST_MarinoCabrera.docx
+d5a4201,marinojm,Sun Sep 27 20:39:37 2026 -0600,UPDATE
+7209c9f,marinojm,Sun Sep 27 19:48:46 2026 -0600,Maeven Coontrol Tareas
+a4998d8,marinojm,Sat Sep 19 18:39:05 2026 -0600,TEMAS
+4b0f7d0,marinojm,Sun Sep 6 23:19:27 2026 -0600,Create Evidencias_Control_Compras_MarinoCabrera.docx
+3e15010,marinojm,Sun Sep 6 13:03:41 2026 -0600,Actividad del 6 sept
+ab9ef9d,marinojm,Sun Sep 6 12:57:36 2026 -0600,Tarea en clase
+f24bee6,marinojm,Sat Sep 5 21:14:41 2026 -0600,Update README.md
+f46b699,marinojm,Sat Sep 5 21:14:07 2026 -0600,Clases
+9c38ef6,marinojm,Sun Aug 30 19:13:02 2026 -0600,Evidencias
+4aaddac,marinojm,Sun Aug 30 19:09:36 2026 -0600,README
+ff0360d,marinojm,Sat Aug 29 23:57:54 2026 -0600,Carga del Main
+ae03663,marinojm,Sat Aug 29 23:51:01 2026 -0600,Primer carga de tarea 5
+184827d,marinojm,Sun Aug 23 13:02:47 2026 -0600,semana 7 actividad clase
+520c217,marinojm,Sun Aug 23 12:56:35 2026 -0600,Actividad en clase 06 - 23/08/26
+2e3f409,marinojm,Sat Aug 22 19:02:30 2026 -0600,Create Evidencia_Marino_Cabrera.docx
+38deb9e,marinojm,Sat Aug 22 18:48:02 2026 -0600,Create README.md
+de41663,marinojm,Sat Aug 22 18:01:24 2026 -0600,CORRECCIONES
+fbac4f6,marinojm,Sat Aug 22 17:33:33 2026 -0600,clases
+7cbb3c3,marinojm,Sat Aug 22 16:31:33 2026 -0600,inicio tarea 4
+36eba27,marinojm,Sun Aug 16 22:00:49 2026 -0600,Update ControlParqueo.java
+0c54d2f,marinojm,Sun Aug 16 21:58:59 2026 -0600,actualizacin de carpeta y carga de evidencias
+9532c64,marinojm,Sun Aug 16 21:56:06 2026 -0600,Update README.me
+9183285,marinojm,Sun Aug 16 21:54:50 2026 -0600,reorganizacion de archivos y carpetas
+a166769,marinojm,Sun Aug 16 21:42:52 2026 -0600,Create workspace.xml
+24f8771,marinojm,Sun Aug 16 21:39:31 2026 -0600,change file
+afd5d45,marinojm,Sun Aug 16 21:33:12 2026 -0600,Update README.md
+932d752,marinojm,Sun Aug 16 21:27:07 2026 -0600,create readme
+18e7f91,marinojm,Sun Aug 16 21:17:43 2026 -0600,SUMMARY
+7028001,marinojm,Sun Aug 16 20:48:41 2026 -0600,Control de parqueo, primer carga
+87f026b,marinojm,Sat Aug 8 21:01:43 2026 -0600,Update Evidencia_Cajero_MarinoCabrera.docx
+7720683,marinojm,Sat Aug 8 20:10:32 2026 -0600,Create Evidencias
+8bc2cb4,marinojm,Sat Aug 8 20:07:07 2026 -0600,carga README
+1aa27bc,marinojm,Sat Aug 8 19:45:33 2026 -0600,Primera Edicion y corrección de parámetros
+3a707a4,marinojm,Sat Aug 8 18:18:18 2026 -0600,Primer carga de examen parcial 1 -  Cajero Automático
+fbad408,marinojm,Sun Aug 2 12:57:42 2026 -0600,Merge branch 'main' of https://github.com/marinojm/programacion-ii-2026
+68d0865,marinojm,Sun Aug 2 12:57:28 2026 -0600,Semana04-presuepuesto-semanal
+f72e7c2,marinojm,Sat Aug 1 21:36:22 2026 -0600,Create EVIDENCIAS SEMANA 03
+3009b9d,marinojm,Sat Aug 1 21:34:05 2026 -0600,Create CAPTURAS TAREA SEMANA 03.pdf
+ba9eac1,marinojm,Sat Aug 1 21:12:15 2026 -0600,Merge branch 'main' of https://github.com/marinojm/programacion-ii-2026
+bccaea4,marinojm,Sat Aug 1 21:12:10 2026 -0600,Implementación de semana 3
+bf95947,marinojm,Sun Jul 26 23:49:13 2026 -0600,Delete semana-02-variables-operadores/evidencias/url-evidencias.txt
+63f165b,marinojm,Sun Jul 26 23:48:37 2026 -0600,Merge branch 'main' of https://github.com/marinojm/programacion-ii-2026
+9c94cc0,marinojm,Sun Jul 26 23:48:29 2026 -0600,Create url-evidencias.txt
+56d7481,marinojm,Sun Jul 26 23:48:09 2026 -0600,Create Evidencias URL
+e056111,marinojm,Sun Jul 26 23:36:26 2026 -0600,Delete semana02/semana-02-variables-operadores directory
+ea579b4,marinojm,Sun Jul 26 23:32:44 2026 -0600,Merge branch 'main' of https://github.com/marinojm/programacion-ii-2026
+96ce387,marinojm,Sun Jul 26 23:32:02 2026 -0600,actualizacion de archivos
+d63b2cd,marinojm,Sun Jul 26 23:29:26 2026 -0600,Add files via upload
+a75c63e,marinojm,Sun Jul 26 23:28:17 2026 -0600,Merge branch 'main' of https://github.com/marinojm/programacion-ii-2026
+1bf5d78,marinojm,Sun Jul 26 23:27:15 2026 -0600,Create evidencias-semana-02-variables-operadores.docx
+cc5bdd2,marinojm,Sun Jul 26 23:25:26 2026 -0600,Update README.md
+4338b2b,marinojm,Sun Jul 26 23:22:55 2026 -0600,Delete semana02/semana-02-variables-operadores directory
+8699991,marinojm,Sun Jul 26 23:17:00 2026 -0600,Initial commit
